@@ -2,8 +2,9 @@ apiVersion: kubevirt.io/v1alpha3
 kind: VirtualMachine
 metadata:
   name: fedora-test-vm-new
-  namespace: default  # Voeg de namespace toe
+  namespace: default
 spec:
+  running: true  # Voeg de running veld toe
   template:
     metadata:
       labels:
