@@ -5,10 +5,10 @@ metadata:
 spec:
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: kupervirt  # De handmatig aangemaakte namespace
+    namespace: kubevirt  # De handmatig aangemaakte namespace
   project: default
   source:
-    repoURL: 'https://github.com/MahamedYahye/argocd-tutorial'
+    repoURL: 'https://github.com/MahamedYahye/argocd-tutorial.git'  # De correcte repoURL
     path: quickstart-demo/example.yaml  # Dit is het pad naar het YAML-bestand binnen je Git repository
     targetRevision: HEAD
   syncPolicy:
