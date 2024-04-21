@@ -1,27 +1,42 @@
-apiVersion: kubevirt.io/v1alpha3
+apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: fedora-test-vm-new
-  namespace: default
+  name: fedora-vmi
 spec:
-  running: true  # Voeg de running veld toe
+  running: false
   template:
     metadata:
       labels:
-        kubevirt.io/vm: fedora-test-vm-new
+        kubevirt.io/size: small
+        kubevirt.io/domain: fedora-vmi
     spec:
       domain:
-        cpu:
-          cores: 2
-        resources:
-          requests:
-            memory: 2Gi
         devices:
           disks:
-          - name: containerdisk
-            disk:
-              bus: virtio
+            - name: containerdisk
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+          interfaces:
+          - name: default
+            masquerade: {}
+        resources:
+          requests:
+            memory: 1Gi
+          limits:
+            memory: 2Gi
+      networks:
+      - name: default
+        pod: {}
       volumes:
-      - name: containerdisk
-        containerDisk:
-          image: kubevirt/fedora-cloud-container-disk-demo:latest
+        - name: containerdisk
+          containerDisk:
+            image: kubevirt/fedora-cloud-container-disk-demo:latest
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            userData: |-
+              #cloud-config
+              password: fedora
+              chpasswd: { expire: False }
